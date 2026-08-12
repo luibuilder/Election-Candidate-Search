@@ -1,1 +1,105 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="중앙선거관리위원회 공개 데이터를 기반으로 가장 가까운 선거와 후보자를 확인합니다.">
+  <title>다음 선거 후보 찾기</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><circle cx=%2232%22 cy=%2232%22 r=%2230%22 fill=%22%230c6658%22/><text x=%2232%22 y=%2242%22 text-anchor=%22middle%22 font-size=%2232%22 fill=%22white%22>선</text></svg>">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="처음으로">
+      <span class="brand-mark" aria-hidden="true">선</span>
+      <span>다음 선거 후보 찾기</span>
+    </a>
+    <a class="source-link" href="https://info.nec.go.kr/" target="_blank" rel="noreferrer">선관위 원문 확인 ↗</a>
+  </header>
 
+  <main>
+    <section class="hero" aria-labelledby="election-title">
+      <div class="hero-copy">
+        <p class="eyebrow" id="data-phase">공식 데이터 확인 중</p>
+        <h1 id="election-title">가장 가까운 선거를 찾고 있습니다</h1>
+        <p class="hero-description" id="election-description">중앙선거관리위원회 공개 데이터가 갱신되면 가장 가까운 선거와 후보 명단이 자동으로 바뀝니다.</p>
+        <div class="hero-meta">
+          <span id="election-date">선거일 확인 중</span>
+          <span id="countdown">—</span>
+          <span id="candidate-count">후보 0명</span>
+        </div>
+      </div>
+      <div class="date-card" aria-label="선거일">
+        <span id="date-year">—</span>
+        <strong id="date-month-day">—</strong>
+        <span id="date-weekday">—</span>
+      </div>
+    </section>
+
+    <section class="notice" id="notice" role="status">
+      <span class="notice-dot" aria-hidden="true"></span>
+      <p id="notice-text">최신 데이터를 불러오고 있습니다.</p>
+    </section>
+
+    <section class="controls" aria-label="후보 검색과 필터">
+      <label class="search-box">
+        <span class="sr-only">후보자 검색</span>
+        <span aria-hidden="true">⌕</span>
+        <input id="search" type="search" placeholder="후보자명, 정당, 지역, 경력 검색" autocomplete="off">
+      </label>
+      <label>
+        <span class="sr-only">시도 선택</span>
+        <select id="region-filter"><option value="">모든 지역</option></select>
+      </label>
+      <label>
+        <span class="sr-only">등록 상태 선택</span>
+        <select id="status-filter"><option value="">모든 등록 상태</option></select>
+      </label>
+    </section>
+
+    <div class="result-summary">
+      <h2>후보자 명단</h2>
+      <p id="result-count">0명을 표시합니다</p>
+    </div>
+    <section class="candidate-grid" id="candidate-grid" aria-live="polite"></section>
+
+    <section class="empty-state" id="empty-state" hidden>
+      <div class="empty-icon" aria-hidden="true">⌛</div>
+      <h2 id="empty-title">후보 등록을 기다리고 있습니다</h2>
+      <p id="empty-description">선관위에 후보 정보가 공개되면 이 화면에 자동으로 나타납니다.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>자료 출처: 중앙선거관리위원회 · 공공데이터포털</p>
+    <p>마지막 데이터 변경: <time id="updated-at">확인 중</time></p>
+    <p class="disclaimer">본 서비스는 공개 데이터 탐색을 돕습니다. 후보자 정보와 등록 상태는 반드시 중앙선거관리위원회 원문으로 최종 확인하세요.</p>
+  </footer>
+
+  <template id="candidate-template">
+    <article class="candidate-card">
+      <div class="candidate-head">
+        <div class="candidate-number"></div>
+        <div>
+          <p class="candidate-party"></p>
+          <h3 class="candidate-name"></h3>
+        </div>
+        <span class="candidate-status"></span>
+      </div>
+      <dl class="candidate-facts">
+        <div><dt>선거구</dt><dd data-field="district"></dd></div>
+        <div><dt>직업</dt><dd data-field="job"></dd></div>
+        <div><dt>학력</dt><dd data-field="education"></dd></div>
+        <div><dt>경력</dt><dd data-field="career"></dd></div>
+      </dl>
+      <button class="detail-toggle" type="button" aria-expanded="false">상세 정보 보기</button>
+      <div class="candidate-details" hidden>
+        <p data-field="personal"></p>
+        <p data-field="address"></p>
+        <p data-field="registered"></p>
+      </div>
+    </article>
+  </template>
+  <script src="assets/app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "name": "election-candidate-search",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sync": "node scripts/sync-election-data.mjs",
+    "check": "node scripts/check-project.mjs",
+    "serve": "node scripts/serve.mjs"
+  },
+  "engines": { "node": ">=20" }
+}
